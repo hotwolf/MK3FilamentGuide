@@ -1,0 +1,4 @@
+{
+    "assemblies/main_assembly.png": 1.797, 
+    "assemblies/main_assembled.png": 1.747
+}

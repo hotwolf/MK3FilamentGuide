@@ -1,0 +1,12 @@
+Vitamins:
+ M
+ a
+ i
+ n
+ 3|  3 Ball bearing 608-2RS 8mm x 22mm x 7mm
+
+Printed:
+ 1|  1 MK3FilamentGuide.stl
+
+Assemblies:
+  1 main_assembly
