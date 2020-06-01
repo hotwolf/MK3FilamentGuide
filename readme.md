@@ -44,7 +44,7 @@
 ### Assembly instructions
 ![main_assembly](assemblies/main_assembly_tn.png)
 
-This is a filament guide for Prusa MK3(S) printers . 
+Push three ball bearings onto the printed part. 
 
 ![main_assembled](assemblies/main_assembled_tn.png)
 

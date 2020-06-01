@@ -71,8 +71,8 @@ $bb_spacer_radius   = $bb_spacer_diameter/2;          //Spacer height
 $bb_clearance       = 2;                              //Space around the bearing
 
 //$explode=1;
-$vpr = [70,0,110];
-$vpt = [0, 0, 0];
+//$vpr = [70,0,110];
+//$vpt = [0, 0, 0];
 
 //Common shapes
 module torus(diameter=$bb_bore,height=($bb_bore/2)) {
@@ -87,6 +87,8 @@ module bearing_holder() {
    } 
 }
    
+//! This is a filament guide for Prusa MK3(S) printers . 
+// ![inside](doc/DIYLB.gif?raw=true)
 
 //3D Print
 module MK3FilamentGuide_stl() {  
@@ -133,11 +135,10 @@ module MK3FilamentGuide_stl() {
     }
 }    
 
-//! This is a filament guide for Prusa MK3(S) printers . 
-// ![inside](doc/DIYLB.gif?raw=true)
+//! Push three ball bearings onto the printed part. 
 
 module main_assembly() {
-    pose([30, 0, 0], [150,150,0])
+    pose([70, 0, 110], [0,0,0])
     assembly("main") {
 
         //3D Print
