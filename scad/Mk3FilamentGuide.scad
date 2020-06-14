@@ -29,6 +29,9 @@
 //#   May 31, 2020                                                              #
 //#      - Initial release                                                      #
 //#                                                                             #
+//#   June 14, 2020                                                             #
+//#      - Fixed compatibility issue with recent NopSCADlib                     #
+//#                                                                             #
 //###############################################################################
 
 include <NopSCADlib/lib.scad>
@@ -52,13 +55,7 @@ $holder_clamp_width =  4; //Minimum holder width
 
 //Ball bearings
 //=============
-//                      n     b  d   h   c                             
-//                      a     o  i   e   o                             
-//                      m     r  a   i   l                             
-//                      e     e  m   g   o                             
-//                               .   h   r                          
-//                                   t                             
-$bb_type            = ["608", 8, 22, 7, "OrangeRed"]; //Standard 608 bearings
+$bb_type            = BB608;                          //Standard 608 bearings
 $bb_height          = $bb_type[3];                    //Ball bearing height
 $bb_diameter        = $bb_type[2];                    //Ball bearing diameter
 $bb_bore            = $bb_type[1];                    //Ball bearing bore
