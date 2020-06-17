@@ -2,13 +2,19 @@
     {
         "count": 1, 
         "name": "main_assembly", 
+        "big": null, 
         "assemblies": {}, 
         "routed": {}, 
         "printed": {
-            "MK3FilamentGuide.stl": 1
+            "MK3FilamentGuide.stl": {
+                "count": 1, 
+                "colour": "[0, 0.572549, 0]"
+            }
         }, 
         "vitamins": {
-            "ball_bearing(BB608): Ball bearing 608-2RS 8mm x 22mm x 7mm": 3
+            "ball_bearing(BB608): Ball bearing 608-2RS 8mm x 22mm x 7mm": {
+                "count": 3
+            }
         }
     }
 ]

@@ -1,4 +1,4 @@
-tmp.png: \
+openscad.echo: \
 	/home/dirk/Tools/NopSCADlib/vitamins/e3d.scad \
 	/home/dirk/Tools/NopSCADlib/utils/offset.scad \
 	/home/dirk/Tools/NopSCADlib/utils/round.scad \
@@ -53,7 +53,6 @@ tmp.png: \
 	/home/dirk/Tools/NopSCADlib/vitamins/psu.scad \
 	/home/dirk/Tools/NopSCADlib/utils/maths.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/pcbs.scad \
-	/home/dirk/Tools/NopSCADlib/vitamins/spade.scad \
 	/home/dirk/Tools/NopSCADlib/utils/core/polyholes.scad \
 	/home/dirk/Tools/NopSCADlib/utils/tube.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/leds.scad \
@@ -62,6 +61,8 @@ tmp.png: \
 	/home/dirk/Tools/NopSCADlib/utils/core/bom.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/displays.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/screw.scad \
+	/home/dirk/Tools/NopSCADlib/vitamins/spade.scad \
+	scad/bom.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/button.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/d_connector.scad \
 	/home/dirk/Tools/NopSCADlib/utils/core/sphere.scad \
@@ -74,7 +75,6 @@ tmp.png: \
 	/home/dirk/Tools/NopSCADlib/vitamins/tubings.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/fans.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/axials.scad \
-	/home/dirk/Tools/NopSCADlib/vitamins/extrusion.scad \
 	/home/dirk/Tools/NopSCADlib/utils/core/rounded_rectangle.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/iec.scad \
 	/home/dirk/Tools/NopSCADlib/core.scad \
@@ -100,7 +100,6 @@ tmp.png: \
 	/home/dirk/Tools/NopSCADlib/vitamins/nuts.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/modules.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/spring.scad \
-	png.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/battery.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/washer.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/blowers.scad \
@@ -125,6 +124,7 @@ tmp.png: \
 	/home/dirk/Tools/NopSCADlib/vitamins/display.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/sk_brackets.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/extrusions.scad \
+	/home/dirk/Tools/NopSCADlib/vitamins/extrusion.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/scs_bearing_blocks.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/extrusion_bracket.scad \
 	/home/dirk/Tools/NopSCADlib/vitamins/sheets.scad \
