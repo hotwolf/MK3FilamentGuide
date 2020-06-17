@@ -126,8 +126,8 @@ module MK3FilamentGuide_stl() {
                 translate([-$bb_holder_width/2,$bb_halfheight+$bb_spacer_height,-$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width]) 
                     cube([$bb_holder_width,$holder_min_width/sqrt(2),$holder_min_width]);
             }
-            translate([-$bb_holder_width/2,-$fo_y+$frame_y/2,-$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width]) 
-                cube([$bb_holder_width,$fo_y+$bb_halfheight+$bb_spacer_height-$frame_y/2,$holder_min_width]);
+            translate([-$bb_holder_width/2,-$bb_offset-$bb_diameter-$bb_clearance,-$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width]) 
+                cube([$bb_holder_width,$bb_clearance+$bb_diameter+$bb_offset+$bb_halfheight+$bb_spacer_height,$holder_min_width]);
             translate([-$bb_holder_width/2,-$bb_offset-$bb_diameter-$bb_clearance,$bb_halfheight+$bb_spacer_height]) 
                 cube([$bb_holder_width,$bb_diameter+$bb_clearance,$holder_min_width]);
             hull() {
@@ -181,6 +181,9 @@ module main_assembly() {
         color("orange")
         translate([-50,0,0]) rotate([0,90,0]) cylinder(100,d=1.75);
 
+        //Check
+        //color("red")
+        //translate([-10,-$fo_y,-$fo_z+$frame_z/2]) cube([10,$fo_z,65]);
     }
 }
 
