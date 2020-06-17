@@ -41,7 +41,7 @@ include <NopSCADlib/vitamins/ball_bearings.scad>
 //Filament offset
 //===============
 $fo_y          = 50.0;    //Distance to frame   
-$fo_z          = 12.0;    //Height offset
+$fo_z          = 50.0;    //Height offset
 
 //Frame dimensions
 //================
@@ -50,8 +50,14 @@ $frame_y       =  6.5;    //Frame thickness
 
 //Holder
 //======
-$holder_min_width   = 10; //Minimum holder width                              
-$holder_clamp_width =  4; //Minimum holder width                              
+$holder_min_width    = 10; //Minimum holder width                              
+$holder_clamp_width  =  4; //Minimum holder width                              
+$holder_clamp_depth  = 30; //Minimum holder depth                              
+$holder_clamp_height = 12; //Minimum holder height                              
+
+//Filament
+//========
+$filament_width = 1.75; //Filament width  
 
 //Ball bearings
 //=============
@@ -61,11 +67,13 @@ $bb_diameter        = $bb_type[2];                    //Ball bearing diameter
 $bb_bore            = $bb_type[1];                    //Ball bearing bore
 $bb_radius          = $bb_diameter/2;                 //Ball bearing radius
 $bb_halfheight      = $bb_height/2;                   //Half of the ball bearing height
-$bb_offset          = $bb_halfheight+.25;             //Axis offset
+$bb_offset          = $bb_halfheight+.1 ;             //Axis offset
 $bb_spacer_diameter = $bb_bore+2;                     //Spacer width                  
 $bb_spacer_height   = 1;                              //Spacer height
 $bb_spacer_radius   = $bb_spacer_diameter/2;          //Spacer height
 $bb_clearance       = 2;                              //Space around the bearing
+$bb_slot            = 2;                              //Width of the holder's slot
+$bb_holder_width    = $bb_bore-2;                     //Width of the Bearing holder
 
 //$explode=1;
 //$vpr = [70,0,110];
@@ -73,15 +81,21 @@ $bb_clearance       = 2;                              //Space around the bearing
 
 //Common shapes
 module torus(diameter=$bb_bore,height=($bb_bore/2)) {
-   rotate_extrude() translate([(diameter/2)-(height/2),0,0]) circle(d=height);
+    rotate_extrude() translate([(diameter/2)-(height/2),0,0]) circle(d=height);
 }
 module bearing_holder() {
-   union() {
-     translate([0,0,$bb_halfheight])                    torus(); 
-     translate([0,0,-$bb_halfheight])                   cylinder($bb_height,d=$bb_bore);
-     translate([0,0,($bb_halfheight-($bb_bore/4))])     cylinder(($bb_bore/2),d=($bb_bore/2));      
-     translate([0,0,-$bb_halfheight-$bb_spacer_height]) cylinder($bb_spacer_height,d=$bb_spacer_diameter);
-   } 
+    difference() {    
+        union() {
+            translate([0,0,$bb_halfheight+($bb_spacer_height/2)]) torus(diameter=$bb_bore+$bb_spacer_height,height=$bb_spacer_height); 
+            translate([0,0,-$bb_halfheight])                   cylinder($bb_height+$bb_spacer_height,d=$bb_bore);
+            translate([0,0,-$bb_halfheight-$bb_spacer_height]) cylinder($bb_spacer_height,d=$bb_spacer_diameter);
+        } 
+        union() {
+            translate([0,0,$bb_spacer_height]) cube([$bb_diameter,$bb_slot,$bb_height+(2*$bb_spacer_height)],center=true);
+            translate([10+($bb_holder_width/2),0,0])  cube([20,20,20],center=true);
+            translate([-10-($bb_holder_width/2),0,0]) cube([20,20,20],center=true);
+        }
+    }
 }
    
 //! This is a filament guide for Prusa MK3(S) printers . 
@@ -98,42 +112,54 @@ module MK3FilamentGuide_stl() {
             translate([0,-$bb_radius-$bb_offset,0]) rotate([180,0,0]) bearing_holder();
             translate([0,0,-$bb_radius-$bb_offset]) rotate([90,0,0])  bearing_holder();
             //Frame
-            translate([$bb_spacer_radius,0,0]) rotate([0,270,0]) linear_extrude($bb_spacer_diameter)
-            polygon([[($bb_halfheight+$bb_spacer_height+$holder_min_width),-($fo_y+($frame_y/2)+$holder_clamp_width)],            
-                     [-($bb_offset+$bb_diameter+$bb_clearance+$holder_min_width),-($fo_y+($frame_y/2)+$holder_clamp_width)],            
-                     [-($bb_offset+$bb_diameter+$bb_clearance+$holder_min_width),($bb_halfheight+$bb_spacer_height+$holder_min_width)],            
-                     [-($bb_offset+$bb_radius+$bb_spacer_radius),($bb_halfheight+$bb_spacer_height+$holder_min_width)],
-                     [-($bb_halfheight+$bb_spacer_height+$holder_min_width),($bb_offset+$bb_radius+$bb_spacer_radius)],
-                     [-($bb_halfheight+$bb_spacer_height),($bb_offset+$bb_radius+$bb_spacer_radius)],
-                     [-($bb_halfheight+$bb_spacer_height),($bb_offset+$bb_radius-$bb_spacer_radius)],
-                     [-($bb_offset+$bb_radius-$bb_spacer_radius),($bb_halfheight+$bb_spacer_height)],
-                     [-($bb_offset+$bb_diameter+$bb_clearance),($bb_halfheight+$bb_spacer_height)],                 
-                     [-($bb_offset+$bb_diameter+$bb_clearance),-($bb_offset+$bb_diameter+$bb_clearance)],
-                     [($bb_halfheight+$bb_spacer_height),-($bb_offset+$bb_diameter+$bb_clearance)],
-                     [($bb_halfheight+$bb_spacer_height),-($bb_offset+$bb_radius-$bb_spacer_radius)],
-                     [($bb_halfheight+$bb_spacer_height+$holder_min_width),-($bb_offset+$bb_radius+$holder_min_width-$bb_spacer_radius)]]); 
+            hull() {
+                translate([-$bb_holder_width/2,$bb_offset+$bb_radius-$bb_spacer_radius,-$bb_halfheight-$bb_spacer_height-$holder_min_width/sqrt(2)]) 
+                    cube([$bb_holder_width,$bb_spacer_diameter,$holder_min_width/sqrt(2)]);
+                translate([-$bb_holder_width/2,$bb_halfheight+$bb_spacer_height,-$bb_offset-$bb_radius-$bb_spacer_radius]) 
+                    cube([$bb_holder_width,$holder_min_width/sqrt(2),$bb_spacer_diameter]);
+            }
+            translate([-$bb_holder_width/2,$bb_halfheight+$bb_spacer_height,-$bb_offset-$bb_diameter-$bb_clearance]) 
+                cube([$bb_holder_width,$holder_min_width,$bb_radius+$bb_spacer_radius+$bb_clearance]);
+            hull() {
+                translate([-$bb_holder_width/2,$bb_halfheight+$bb_spacer_height,-$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width/sqrt(2)]) 
+                    cube([$bb_holder_width,$holder_min_width,$holder_min_width/sqrt(2)]);
+                translate([-$bb_holder_width/2,$bb_halfheight+$bb_spacer_height,-$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width]) 
+                    cube([$bb_holder_width,$holder_min_width/sqrt(2),$holder_min_width]);
+            }
+            translate([-$bb_holder_width/2,-$fo_y+$frame_y/2,-$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width]) 
+                cube([$bb_holder_width,$fo_y+$bb_halfheight+$bb_spacer_height-$frame_y/2,$holder_min_width]);
+            translate([-$bb_holder_width/2,-$bb_offset-$bb_diameter-$bb_clearance,$bb_halfheight+$bb_spacer_height]) 
+                cube([$bb_holder_width,$bb_diameter+$bb_clearance,$holder_min_width]);
+            hull() {
+                translate([-$bb_holder_width/2,
+                        -$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width,
+                        -$bb_offset-$bb_diameter-$bb_clearance-$holder_min_width]) 
+                    cube([$bb_holder_width,
+                        $holder_min_width,
+                        $bb_spacer_height+$bb_halfheight+$bb_offset+$bb_diameter+$bb_clearance+2*$holder_min_width]);
+                translate([-$bb_holder_width/2,-$fo_y-$frame_y/2-$holder_clamp_width,-$fo_z+$frame_z/2-$holder_clamp_height]) 
+                    cube([$bb_holder_width,$frame_y+2*$holder_clamp_width,$holder_clamp_width+$holder_clamp_height]);
+            }
+            translate([-$bb_holder_width/2,-$fo_y-$frame_y/2-$holder_clamp_width,-$fo_z+$frame_z/2-$holder_clamp_height]) 
+                cube([$holder_clamp_depth,$frame_y+2*$holder_clamp_width,$holder_clamp_width+$holder_clamp_height]);
+            
+            translate([-$bb_holder_width/2,0,$bb_halfheight+$bb_spacer_height]) rotate([90,0,90]) linear_extrude($bb_holder_width) 
+            polygon(points=[[-$bb_offset,$holder_min_width],
+                            [-$bb_offset,0],
+                            [-$bb_offset+0,4],
+                            [$bb_offset-3,4],
+                            [$bb_offset-1,$filament_width-$bb_spacer_height],
+                            [$bb_offset,$filament_width-$bb_spacer_height],
+                            [$bb_offset,$holder_min_width-3],
+                            [$bb_offset-3,$holder_min_width]]);            
         }   
         union() {
-            translate([20,-$fo_y-($frame_y/2),-($fo_z+($frame_z/2))]) rotate([0,270,0]) linear_extrude(40)
-            polygon([[$frame_z-2,-2],
-                     [$frame_z-2,-10],
-                     [2,-10],
-                     [2,-2], 
-                     [0,0],
-                     [0,$frame_y],
-                     [$frame_z,$frame_y],
-                     [$frame_z,0]]);
-            translate([(($bb_bore/2)+9),0,0])cube([20,200,200],center=true);
-            translate([-(($bb_bore/2)+9),0,0])cube([20,200,200],center=true);
-
-            translate([0,(-$fo_y+7),-(($frame_z/2)+$fo_z-0.5)]) cube([40,14,1],center=true);
-            translate([0,(-$fo_y+7),(($frame_z/2)-$fo_z-0.5)]) cube([40,14,1],center=true);
+            translate([0,-$fo_y,-$fo_z]) rotate([0,0,0]) cube([100,$frame_y,$frame_z],center=true);
         }
     }
 }    
 
 //! Push three ball bearings onto the printed part. 
-
 module main_assembly() {
     pose([70, 0, 110], [0,0,0])
     assembly("main") {
