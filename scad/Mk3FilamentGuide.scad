@@ -32,6 +32,16 @@
 //#   June 14, 2020                                                             #
 //#      - Fixed compatibility issue with recent NopSCADlib                     #
 //#                                                                             #
+//#   June 17, 2020                                                             #
+//#      - Redesign to fix three major flaws:                                   #
+//#        1. Filament guide has to be removed for Z-axis calibration           #
+//#        2. Filament slips out of the guide at a certain print height         #
+//#        3. The bearings are not secured well enough                          #
+//#                                                                             #
+//#   June 18, 2020                                                             #
+//#      - Added a clamp to secure the filament guide onto the printer frame    #
+//#      - Udsated the top of the filament guide                                #
+//#                                                                             #
 //###############################################################################
 
 include <NopSCADlib/lib.scad>
@@ -142,15 +152,23 @@ module MK3FilamentGuide_stl() {
             }
             translate([-$bb_holder_width/2,-$fo_y-$frame_y/2-$holder_clamp_width,-$fo_z+$frame_z/2-$holder_clamp_height]) 
                 cube([$holder_clamp_depth,$frame_y+2*$holder_clamp_width,$holder_clamp_width+$holder_clamp_height]);
+
+
+            translate([-$bb_holder_width/2,-$fo_y-$frame_y/2-$holder_clamp_width,-$fo_z-$frame_z/2-$holder_clamp_width]) 
+                cube([$holder_clamp_depth,$frame_y/2+$holder_clamp_width,$frame_z+2*$holder_clamp_width]);
             
             translate([-$bb_holder_width/2,0,$bb_halfheight+$bb_spacer_height]) rotate([90,0,90]) linear_extrude($bb_holder_width) 
             polygon(points=[[-$bb_offset,$holder_min_width],
                             [-$bb_offset,0],
                             [-$bb_offset+0,4],
                             [$bb_offset-3,4],
-                            [$bb_offset-1,$filament_width-$bb_spacer_height],
-                            [$bb_offset,$filament_width-$bb_spacer_height],
-                            [$bb_offset,$holder_min_width-3],
+                            //[$bb_offset-1,$filament_width-$bb_spacer_height],
+                            [$bb_offset,0],
+                            //[$bb_offset,$filament_width-$bb_spacer_height],
+                            [$bb_offset+1,0],
+                            //[$bb_offset,$holder_min_width-3],
+                            [$bb_offset+1,$holder_min_width-3],
+                            //[$bb_offset-3,$holder_min_width]]);            
                             [$bb_offset-3,$holder_min_width]]);            
         }   
         union() {
