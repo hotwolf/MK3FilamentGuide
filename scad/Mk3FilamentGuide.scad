@@ -186,9 +186,9 @@ module main_assembly() {
         MK3FilamentGuide_stl()
 
         //Ball bearing
-        translate([0,($bb_radius+$bb_offset),0])  rotate([0,0,0])  explode(15)  ball_bearing($bb_type);
-        translate([0,($bb_radius+$bb_offset),0])  rotate([0,0,0])  explode(15)  ball_bearing($bb_type); //Somehow must be duplicated to be visible in review
-        translate([0,(-$bb_radius-$bb_offset),0]) rotate([0,0,0])  explode(-45) ball_bearing($bb_type);
+        translate([0,($bb_radius+$bb_offset),0])  rotate([0,0,0])  explode(20)  ball_bearing($bb_type);
+        translate([0,($bb_radius+$bb_offset),0])  rotate([0,0,0])  explode(20)  ball_bearing($bb_type); //Somehow must be duplicated to be visible in review
+        translate([0,(-$bb_radius-$bb_offset),0]) rotate([0,0,0])  explode(-50) ball_bearing($bb_type);
         translate([0,0,(-$bb_radius-$bb_offset)]) rotate([90,0,0]) explode(23)  ball_bearing($bb_type);
 
         //Frame

@@ -1,3 +1,3 @@
 {
-    "MK3FilamentGuide.stl": 5.979
+    "MK3FilamentGuide.stl": 6.0
 }

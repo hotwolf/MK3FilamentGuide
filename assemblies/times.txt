@@ -1,4 +1,4 @@
 {
-    "assemblies/main_assembly.png": 1.542, 
-    "assemblies/main_assembled.png": 1.52
+    "assemblies/main_assembly.png": 1.559, 
+    "assemblies/main_assembled.png": 1.533
 }
